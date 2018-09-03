@@ -91,7 +91,7 @@ const LineClamp = (() => {
   }
 
   const clamp = () => {
-    let elements = Array.from(document.querySelectorAll('[data-text-clamp]'))
+    let elements = Array.from(document.querySelectorAll('[data-line-clamp]'))
     let instances = []
 
     // Create Instances
