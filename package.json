@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "Takeshi Toya"
+  },
+  "bugs": {
+    "url": "https://github.com/toyata/line-clamp/issues"
+  },
+  "dependencies": {
+    
+  },
+  "description": "Javascript line clamp module",
+  "devDependencies": {
+    
+  },
+  "homepage": "https://github.com/toyata/collapse",
+  "keywords": [
+    "collapse"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "tt.line-clamp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toyata/line-clamp.git"
+  },
+  "scripts": {
+    
+  },
+  "version": "0.1.2"
+}

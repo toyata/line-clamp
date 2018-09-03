@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Clamp Tests</title>
+  <link href="https://unpkg.com/mocha@5.2.0/mocha.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="mocha"></div>
+
+  <script src="../../dom/index.js"></script>
+  <script src="../index.js"></script>
+
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/mocha@5.2.0/mocha.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+  <script src="test.clamp.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+  
+  <p style="font-size:12px;line-height:1.4;width:300px;max-height:32px;overflow:hidden" id="clamp" data-text-clamp>Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:</p>
+</body>
+</html>
