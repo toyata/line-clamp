@@ -23,6 +23,7 @@ const LineClamp = (() => {
       this._test.style.maxHeight = 'none'
       this._test.style.position = 'absolute'
       this._test.style.visibility = 'hidden'
+      this._test.removeAttribute('data-line-clamp')
 
       return this
     }
@@ -35,7 +36,7 @@ const LineClamp = (() => {
 
       if (this._test.clientHeight <= this._height) return this
 
-      let min = 0, max = this.text.length-1, half = 0, limit = 10
+      let min = 0, max = this.text.length-1, half = 0, limit = 30
 
       while (max - min > 1 && limit > 0) {
         half = ~~(min + (max - min)/2)
@@ -105,34 +106,6 @@ const LineClamp = (() => {
   })).then(() => {
     clamp()
     window.addEventListener('resize', clamp)
-  })
-
-  // Click handler
-  document.addEventListener('click', e => {
-    Array.from(e.currentTarget.querySelectorAll('[data-toggle="collapse"]')).forEach(el => {
-      // The target
-      if (e.target == el || el.contains(e.target)) {
-        let config = {}
-        let selector = el.getAttribute('data-target') && '#' + el.getAttribute('data-target')
-        let targets = []
-
-        if (selector) {
-          targets = Array.from(document.querySelectorAll(selector))
-        } else if (el.nextElementSibling.classList.contains('collapse')) {
-          targets = [el.nextElementSibling]
-        }
-
-        config.triggers = [el]
-
-        // Kill anchor default behavior
-        if (el.tagName === 'A' || el.tagName === 'AREA') {
-          e.preventDefault()
-        }
-
-        // Create Collapse
-        targets.forEach(el => Collapse.create(el, config))
-      }
-    })
   })
 
   return LineClamp 
