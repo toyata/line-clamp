@@ -1,7 +1,7 @@
-const TextClamp = (() => {
+const LineClamp = (() => {
   const _instaces = []
 
-  class TextClamp {
+  class LineClamp {
     constructor(element) {
       if (!element || !(element instanceof HTMLElement))
         throw new TypeError('An element must be specified')
@@ -71,7 +71,7 @@ const TextClamp = (() => {
     }
 
     static create(element) {
-      let instance = element._clamp || new TextClamp(element) 
+      let instance = element._clamp || new LineClamp(element) 
 
       if (!element._clamp) {
         element._clamp = instance
@@ -95,7 +95,7 @@ const TextClamp = (() => {
     let instances = []
 
     // Create Instances
-    elements.forEach(el => instances.push(TextClamp.create(el).prepare()))
+    elements.forEach(el => instances.push(LineClamp.create(el).prepare()))
 
     instances.forEach(item => item.render())
   }
@@ -135,10 +135,10 @@ const TextClamp = (() => {
     })
   })
 
-  return TextClamp
+  return LineClamp 
 })()
 
 // Export it for webpack
 if (typeof module === 'object' && module.exports) {
-  module.exports = { TextClamp: TextClamp };
+  module.exports = { LineClamp: LineClamp };
 }
