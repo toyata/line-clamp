@@ -121,11 +121,7 @@ const LineClamp = (() => {
     // Create Instances
     elements.forEach(el => instances.push(LineClamp.create(el).prepare()))
     
-    console.log((new Date).getTime() - t)
-    
     instances.forEach(item => item.render())
-    
-    console.log((new Date).getTime() - t)
   }
 
   (new Promise((resolve, reject) => {
