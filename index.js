@@ -14,14 +14,22 @@ const LineClamp = (() => {
     }
 
     prepare() {
-      this._width = this.el.clientWidth
-      this._height = this.el.clientHeight
-
-      this._test = this.el.cloneNode()
-      this._test.textContent = this.text.toString()
+      this._style = window.getComputedStyle(this.el, null)
+      
+      this._width = this._style.width.replace('px', '')
+      this._height = isNaN(this._normalizeUnit(this._style['max-height'])) ? this._normalizeUnit(this._style.height) : this._normalizeUnit(this._style['max-height'])
+      
+      if (!this._test)
+        this._test = this.el.cloneNode()
+      
+      this._test.textContent = this.text
+      this._test.style.width = this._width + 'px'
       this._test.style.height = 'auto'
       this._test.style.maxHeight = 'none'
-      this._test.style.position = 'absolute'
+      this._test.style.position = 'fixed'
+      this._test.style.left = 0
+      this._test.style.top = 0
+      this._test.style.display = 'flex'
       this._test.style.visibility = 'hidden'
       this._test.removeAttribute('data-line-clamp')
 
@@ -30,19 +38,29 @@ const LineClamp = (() => {
 
     render() {
       if (!this.el.parentNode) return this
+      
+      // Predicts text length
+      let fs = this._normalizeUnit(this._style['font-size']),
+          lh = this._normalizeUnit(this._style['line-height']),
+          len = (~~(this._width/fs)) * (~~(this._height/lh))
+      
+      if (this.text.length <= len) {
+        this.el.textContent = this.text
+        return this
+      }
 
       // Append test object
       this.el.parentNode.appendChild(this._test)
 
-      if (this._test.clientHeight <= this._height) return this
-
-      let min = 0, max = this.text.length-1, half = 0, limit = 30
+      let min = len-2, max = this.text.length-1, half = 0, limit = 30
 
       while (max - min > 1 && limit > 0) {
         half = ~~(min + (max - min)/2)
         this._test.textContent = this.text.substring(0, half) + '...'
+        
+        let s = window.getComputedStyle(this._test, null)
 
-        if (this._test.clientHeight > this._height)
+        if (this._normalizeUnit(s.height) > this._height)
           max = half
         else
           min = half
@@ -52,11 +70,15 @@ const LineClamp = (() => {
 
       // Set text
       this.el.textContent = this.text.substring(0, min) + '...'
-
-      // Dispose test element
+      
+      // Remove test element from dom tree
       this._test.parentNode.removeChild(this._test)
 
       return this
+    }
+    
+    _normalizeUnit(val) {
+      return Number(val.replace('px',''))
     }
 
     dispose() {
@@ -73,7 +95,7 @@ const LineClamp = (() => {
 
     static create(element) {
       let instance = element._clamp || new LineClamp(element) 
-
+      
       if (!element._clamp) {
         element._clamp = instance
         _instaces.push(instance)
@@ -92,13 +114,18 @@ const LineClamp = (() => {
   }
 
   const clamp = () => {
+    let t = (new Date).getTime()
     let elements = Array.from(document.querySelectorAll('[data-line-clamp]'))
     let instances = []
 
     // Create Instances
     elements.forEach(el => instances.push(LineClamp.create(el).prepare()))
-
+    
+    console.log((new Date).getTime() - t)
+    
     instances.forEach(item => item.render())
+    
+    console.log((new Date).getTime() - t)
   }
 
   (new Promise((resolve, reject) => {
@@ -113,5 +140,5 @@ const LineClamp = (() => {
 
 // Export it for webpack
 if (typeof module === 'object' && module.exports) {
-  module.exports = { LineClamp: LineClamp };
+  module.exports = LineClamp;
 }
