@@ -5,12 +5,10 @@
   "bugs": {
     "url": "https://github.com/toyata/line-clamp/issues"
   },
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "description": "Javascript line clamp module",
   "devDependencies": {
-    
+    "browser-sync": "^2.26.3"
   },
   "homepage": "https://github.com/toyata/collapse",
   "keywords": [
@@ -24,7 +22,7 @@
     "url": "https://github.com/toyata/line-clamp.git"
   },
   "scripts": {
-    
+    "serve": "browser-sync start --config 'bs-config.js'"
   },
   "version": "0.1.2"
 }

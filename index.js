@@ -54,23 +54,25 @@ const LineClamp = (() => {
 
       let min = len-2, max = this.text.length-1, half = 0, limit = 30
 
-      while (max - min > 1 && limit > 0) {
-        half = ~~(min + (max - min)/2)
-        this._test.textContent = this.text.substring(0, half) + '...'
-        
-        let s = window.getComputedStyle(this._test, null)
+      if (max - min > 1 && this._test.clientHeight > this._height) {
+        while (max - min > 1 && limit > 0) {
+          half = ~~(min + (max - min)/2)
+          this._test.textContent = this.text.substring(0, half) + '...'
+          
+          let s = window.getComputedStyle(this._test, null)
 
-        if (this._normalizeUnit(s.height) > this._height)
-          max = half
-        else
-          min = half
+          if (this._normalizeUnit(s.height) > this._height)
+            max = half
+          else
+            min = half
 
-        limit--
+          limit--
+        }
+
+        // Set text
+        this.el.textContent = this.text.substring(0, min) + '...'
       }
-
-      // Set text
-      this.el.textContent = this.text.substring(0, min) + '...'
-      
+     
       // Remove test element from dom tree
       this._test.parentNode.removeChild(this._test)
 
